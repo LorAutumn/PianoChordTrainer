@@ -49,9 +49,18 @@ const ChordComponent = () => {
   }, [updateChord]);
 
   return (
-    <div>
-      <h1>{chord}</h1>
-      <button onClick={() => clickHandler()}>
+    <div className="text-center">
+      <div className="h-60">
+        {isRunning ? (
+          <h1 className="text-9xl mt-8">{chord}</h1>
+        ) : (
+          <p className="text-5xl mt-8">Press Start to begin</p>
+        )}
+      </div>
+      <button
+        className="border border-white rounded-lg mt-6 px-4"
+        onClick={() => clickHandler()}
+      >
         {isRunning ? "Stop" : "Start"}
       </button>
     </div>
