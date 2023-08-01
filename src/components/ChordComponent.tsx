@@ -5,6 +5,7 @@ const ChordComponent = () => {
   const intervalIdRef = useRef<number | null>(null);
   const [chord, setChord] = useState("C");
   const [isRunning, setIsRunning] = useState(false);
+  const [intervalLength, setIntervalLength] = useState(2);
 
   const chords: Chords[] = [
     Chords.C,
@@ -34,12 +35,16 @@ const ChordComponent = () => {
     }
   };
 
+  const handleChangeIntervalLength = (event: any) => {
+    setIntervalLength(event.target.value * 1000);
+  };
+
   const updateChord = useCallback(() => {
     if (!isRunning) return;
 
     intervalIdRef.current = setInterval(() => {
       setChord(getRandomChord());
-    }, 2000);
+    }, intervalLength);
 
     return () => clearInterval(intervalIdRef.current!);
   }, [chord, isRunning]);
@@ -63,6 +68,13 @@ const ChordComponent = () => {
       >
         {isRunning ? "Stop" : "Start"}
       </button>
+      <input
+        className="text-slate-900"
+        type="number"
+        value={intervalLength}
+        onChange={handleChangeIntervalLength}
+        // onChange={handleChangeIntervalLength}
+      />
     </div>
   );
 };
