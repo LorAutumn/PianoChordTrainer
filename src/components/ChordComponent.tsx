@@ -1,23 +1,33 @@
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
-import { Chords } from "../enums/Chords";
+import { CHORDS } from "../enums/Chords";
 
 const ChordComponent = () => {
   const intervalIdRef = useRef<number | null>(null);
-  const [chord, setChord] = useState("C");
+  const [chord, setChord] = useState<CHORDS>(CHORDS.C);
   const [isRunning, setIsRunning] = useState(false);
   const [intervalLength, setIntervalLength] = useState(2);
 
-  const chords: Chords[] = [
-    Chords.C,
-    Chords.D,
-    Chords.E,
-    Chords.F,
-    Chords.G,
-    Chords.A,
-    Chords.B,
+  const chords: CHORDS[] = [
+    CHORDS.C,
+    CHORDS.CSharp,
+    CHORDS.DFlat,
+    CHORDS.D,
+    CHORDS.DSharp,
+    CHORDS.EFlat,
+    CHORDS.E,
+    CHORDS.F,
+    CHORDS.FSharp,
+    CHORDS.GFlat,
+    CHORDS.G,
+    CHORDS.GSharp,
+    CHORDS.AFlat,
+    CHORDS.A,
+    CHORDS.ASharp,
+    CHORDS.BFlat,
+    CHORDS.B,
   ];
 
-  const getRandomChord = (): Chords => {
+  const getRandomChord = (): CHORDS => {
     // Filter out the current chord from the array of chords to prevent the same chord from being selected twice in a row
     const filteredChords = chords.filter((c) => c !== chord);
     const randomIndex = Math.floor(Math.random() * filteredChords.length);
@@ -57,7 +67,7 @@ const ChordComponent = () => {
     <div className="text-center">
       <div className="h-60">
         {isRunning ? (
-          <h1 className="text-9xl mt-8">{chord}</h1>
+          <h1 className="text-9xl mt-8">{chord[0]}</h1>
         ) : (
           <p className="text-5xl mt-8">Press Start to begin</p>
         )}
@@ -71,9 +81,9 @@ const ChordComponent = () => {
       <input
         className="text-slate-900"
         type="number"
+        maxLength={1}
         value={intervalLength}
         onChange={handleChangeIntervalLength}
-        // onChange={handleChangeIntervalLength}
       />
     </div>
   );
