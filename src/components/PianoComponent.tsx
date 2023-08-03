@@ -1,11 +1,7 @@
 import { JSX } from "preact/jsx-runtime";
 import { PianoNotes } from "../enums/PianoNotes";
 
-const PianoComponent = ({ keys }: { keys: string[] }): JSX.Element => {
-  console.log(keys, "keys");
-
-  console.log(keys.length > 0 && keys.includes(PianoNotes.E));
-
+const PianoComponent = ({ keys }: { keys: PianoNotes[] }): JSX.Element => {
   return (
     <ul className="keyboard flex flex-row">
       <li

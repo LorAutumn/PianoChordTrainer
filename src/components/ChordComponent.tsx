@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import { CHORDS } from "../enums/Chords";
+import { useAtom } from "jotai";
+import { chordAtom } from "../store/chordState";
 
 const ChordComponent = () => {
   const intervalIdRef = useRef<number | null>(null);
-  const [chord, setChord] = useState<CHORDS>(CHORDS.C);
   const [isRunning, setIsRunning] = useState(false);
   const [intervalLength, setIntervalLength] = useState(2);
+  const [chord, setChord] = useAtom(chordAtom);
 
   const chords: CHORDS[] = [
     CHORDS.C,

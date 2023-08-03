@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "jotai": "^2.2.3",
     "preact": "^10.16.0"
   },
   "devDependencies": {
