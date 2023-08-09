@@ -1,14 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import { CHORDS } from "../enums/Chords";
 import { useAtom } from "jotai";
-import { chordAtom, isRunningAtom } from "../store/chordState";
-import { RangeSlider } from "flowbite-react";
+import { chordAtom, isRunningAtom, showPianoKeysAtom } from "../store/state";
+import { Checkbox, Label, RangeSlider } from "flowbite-react";
 
 const LogicComponent = () => {
   const intervalIdRef = useRef<number | null>(null);
   const [isRunning, setIsRunning] = useAtom(isRunningAtom);
-  const [intervalLength, setIntervalLength] = useState(2);
   const [chord, setChord] = useAtom(chordAtom);
+  const [showPianoKeys, setShowPianoKeys] = useAtom(showPianoKeysAtom);
+  const [intervalLength, setIntervalLength] = useState(2);
 
   const chords: CHORDS[] = [
     CHORDS.C,
@@ -75,7 +76,18 @@ const LogicComponent = () => {
       >
         {isRunning ? "Stop" : "Start"}
       </button>
-      <p className="mt-2">Interval in seconds: {intervalLength}</p>
+      <div className="mt-4">
+        <Checkbox
+          checked={showPianoKeys}
+          onChange={() => {
+            setShowPianoKeys(!showPianoKeys);
+          }}
+        />
+        <Label className="text-inherit text-base"> show piano keys</Label>
+      </div>
+      <Label className="text-inherit text-base mt-2">
+        Interval in seconds: {intervalLength}
+      </Label>
       <RangeSlider
         value={intervalLength}
         onChange={changeIntervalLength}

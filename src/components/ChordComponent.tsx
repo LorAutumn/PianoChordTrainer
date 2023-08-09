@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { chordAtom, isRunningAtom } from "../store/chordState";
+import { chordAtom, isRunningAtom } from "../store/state";
 
 const ChordComponent = () => {
   const [chord] = useAtom(chordAtom);

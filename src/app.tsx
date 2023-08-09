@@ -2,7 +2,7 @@ import { useAtom } from "jotai";
 import LogicComponent from "./components/LogicComponent";
 import PianoComponent from "./components/PianoComponent";
 import { PianoNotes } from "./enums/PianoNotes";
-import { chordAtom } from "./store/chordState";
+import { chordAtom } from "./store/state";
 import ChordComponent from "./components/ChordComponent";
 
 export function App() {
@@ -10,11 +10,13 @@ export function App() {
   const activeKeys: PianoNotes[] = [...chord.values()];
 
   return (
-    <header className="h-screen bg-gradient-to-b from-gray-900 to-slate-800 flex-col text-white p-20">
-      <h1 className="text-5xl font-bold text-center mb-2">Chord Trainer</h1>
+    <div className="h-screen bg-gradient-to-b from-gray-900 to-slate-800 flex-col text-white p-20">
+      <header>
+        <h1 className="text-5xl font-bold text-center mb-2">Chord Trainer</h1>
+      </header>
       <ChordComponent />
       <PianoComponent keys={activeKeys} />
       <LogicComponent />
-    </header>
+    </div>
   );
 }
