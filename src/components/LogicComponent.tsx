@@ -1,39 +1,37 @@
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
-import { CHORDS } from "../enums/Chords";
+import { Chords, MAJOR_CHORDS, SHARP_FLAT_MAJOR_CHORDS } from "../enums/Chords";
 import { useAtom } from "jotai";
-import { chordAtom, isRunningAtom, showPianoKeysAtom } from "../store/state";
-import { Checkbox, Label, RangeSlider } from "flowbite-react";
+import {
+  chordAtom,
+  isRunningAtom,
+  selectedChordsAtom,
+  showPianoKeysAtom,
+} from "../store/state";
+import { Button, Checkbox, Label, RangeSlider } from "flowbite-react";
 
 const LogicComponent = () => {
   const intervalIdRef = useRef<number | null>(null);
   const [isRunning, setIsRunning] = useAtom(isRunningAtom);
   const [chord, setChord] = useAtom(chordAtom);
   const [showPianoKeys, setShowPianoKeys] = useAtom(showPianoKeysAtom);
+  const [selectedChords, setSelectedChords] = useAtom(selectedChordsAtom);
   const [intervalLength, setIntervalLength] = useState(2);
 
-  const chords: CHORDS[] = [
-    CHORDS.C,
-    CHORDS.CSharp,
-    CHORDS.DFlat,
-    CHORDS.D,
-    CHORDS.DSharp,
-    CHORDS.EFlat,
-    CHORDS.E,
-    CHORDS.F,
-    CHORDS.FSharp,
-    CHORDS.GFlat,
-    CHORDS.G,
-    CHORDS.GSharp,
-    CHORDS.AFlat,
-    CHORDS.A,
-    CHORDS.ASharp,
-    CHORDS.BFlat,
-    CHORDS.B,
-  ];
+  const handleCheckboxChange = (chordRange: Chords[]) => (event: any) => {
+    const isChecked = event.target.checked;
 
-  const getRandomChord = (): CHORDS => {
+    if (isChecked) {
+      setSelectedChords([...selectedChords, ...chordRange]);
+    } else {
+      setSelectedChords(
+        selectedChords.filter((chord) => !chordRange.includes(chord))
+      );
+    }
+  };
+
+  const getRandomChord = (): Chords => {
     // Filter out the current chord from the array of chords to prevent the same chord from being selected twice in a row
-    const filteredChords = chords.filter((c) => c !== chord);
+    const filteredChords = selectedChords.filter((c) => c !== chord);
     const randomIndex = Math.floor(Math.random() * filteredChords.length);
 
     return filteredChords[randomIndex];
@@ -70,12 +68,19 @@ const LogicComponent = () => {
 
   return (
     <div className="text-center">
-      <button
+      {/* <button
+        disabled={selectedChords.length < 1}
         className="border border-white rounded-lg mt-6 px-4"
         onClick={() => clickHandler()}
+        title={selectedChords.length < 1 ? "Select at least one chord" : ""}
       >
         {isRunning ? "Stop" : "Start"}
-      </button>
+      </button> */}
+      <div className="mt-6 flex justify-center">
+        <Button onClick={() => clickHandler()} outline>
+          {isRunning ? "Stop" : "Start"}
+        </Button>
+      </div>
       <div className="mt-4">
         <Checkbox
           checked={showPianoKeys}
@@ -94,6 +99,22 @@ const LogicComponent = () => {
         min={1}
         max={10}
       />
+      <div>
+        <Label className="text-inherit text-base mt-2">
+          Select Major Chords
+        </Label>
+        <Checkbox
+          onChange={handleCheckboxChange(Object.values(MAJOR_CHORDS))}
+        />
+        <Label className="text-inherit text-base mt-2">
+          Select Sharp/Flat Major Chords
+        </Label>
+        <Checkbox
+          onChange={handleCheckboxChange(
+            Object.values(SHARP_FLAT_MAJOR_CHORDS)
+          )}
+        />
+      </div>
     </div>
   );
 };
