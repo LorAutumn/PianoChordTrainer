@@ -4,6 +4,7 @@ import PianoComponent from "./components/PianoComponent";
 import { PianoNotes } from "./enums/PianoNotes";
 import { chordAtom } from "./store/state";
 import ChordComponent from "./components/ChordComponent";
+import SelectChordsModal from "./components/SelectChordsModal";
 
 export function App() {
   const [chord] = useAtom(chordAtom);
@@ -15,6 +16,7 @@ export function App() {
         <h1 className="text-5xl font-bold text-center mb-2">Chord Trainer</h1>
       </header>
       <ChordComponent />
+      <SelectChordsModal />
       <PianoComponent keys={activeKeys} />
       <LogicComponent />
     </div>

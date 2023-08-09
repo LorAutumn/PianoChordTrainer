@@ -5,6 +5,7 @@ import {
   chordAtom,
   isRunningAtom,
   selectedChordsAtom,
+  showModalAtom,
   showPianoKeysAtom,
 } from "../store/state";
 import { Button, Checkbox, Label, RangeSlider } from "flowbite-react";
@@ -16,6 +17,7 @@ const LogicComponent = () => {
   const [showPianoKeys, setShowPianoKeys] = useAtom(showPianoKeysAtom);
   const [selectedChords, setSelectedChords] = useAtom(selectedChordsAtom);
   const [intervalLength, setIntervalLength] = useState(2);
+  const [showModal, setShowModal] = useAtom(showModalAtom);
 
   const handleCheckboxChange = (chordRange: Chords[]) => (event: any) => {
     const isChecked = event.target.checked;
@@ -39,8 +41,11 @@ const LogicComponent = () => {
 
   const clickHandler = (): void => {
     if (!isRunning) {
-      setIsRunning(true);
-      setChord(getRandomChord());
+      if (selectedChords.length < 1) setShowModal(true);
+      else {
+        setIsRunning(true);
+        setChord(getRandomChord());
+      }
     } else {
       setIsRunning(false);
       clearInterval(intervalIdRef.current!);
@@ -68,14 +73,6 @@ const LogicComponent = () => {
 
   return (
     <div className="text-center">
-      {/* <button
-        disabled={selectedChords.length < 1}
-        className="border border-white rounded-lg mt-6 px-4"
-        onClick={() => clickHandler()}
-        title={selectedChords.length < 1 ? "Select at least one chord" : ""}
-      >
-        {isRunning ? "Stop" : "Start"}
-      </button> */}
       <div className="mt-6 flex justify-center">
         <Button onClick={() => clickHandler()} outline>
           {isRunning ? "Stop" : "Start"}
