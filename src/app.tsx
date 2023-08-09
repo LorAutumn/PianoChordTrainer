@@ -1,8 +1,9 @@
 import { useAtom } from "jotai";
-import ChordComponent from "./components/ChordComponent";
+import LogicComponent from "./components/LogicComponent";
 import PianoComponent from "./components/PianoComponent";
 import { PianoNotes } from "./enums/PianoNotes";
 import { chordAtom } from "./store/chordState";
+import ChordComponent from "./components/ChordComponent";
 
 export function App() {
   const [chord] = useAtom(chordAtom);
@@ -13,6 +14,7 @@ export function App() {
       <h1 className="text-5xl font-bold text-center mb-2">Chord Trainer</h1>
       <ChordComponent />
       <PianoComponent keys={activeKeys} />
+      <LogicComponent />
     </header>
   );
 }

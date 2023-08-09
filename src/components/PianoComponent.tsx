@@ -3,7 +3,7 @@ import { PianoNotes } from "../enums/PianoNotes";
 
 const PianoComponent = ({ keys }: { keys: PianoNotes[] }): JSX.Element => {
   return (
-    <ul className="keyboard flex flex-row">
+    <ul className="keyboard flex flex-row justify-center">
       <li
         className={`${
           keys.length > 0 && keys.includes(PianoNotes.C)
